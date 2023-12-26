@@ -13,6 +13,7 @@ import com.ser.evITAWeb.api.controls.ITextField;
 import com.ser.evITAWeb.scripting.Doxis4ClassFactory;
 import com.ser.evITAWeb.scripting.bpmservice.task.TaskScripting;
 import org.slf4j.Logger;
+import utils.GeneralLib;
 import utils.Utils;
 
 import java.util.ArrayList;
@@ -94,7 +95,7 @@ public class SendToDcc extends TaskScripting {
 
         if( parentObject != null){
             updateList.add(parentObject);
-            IInformationObject prjCardDoc = getProjectCard(parentObject.getDescriptorValue("ccmPRJCard_code"));
+            IInformationObject prjCardDoc = GeneralLib.getProjectCard(getTask().getSession(), parentObject.getDescriptorValue("ccmPRJCard_code"));
             if(prjCardDoc!=null) updateList.add(prjCardDoc);
 
                 for(IInformationObject sourceObje:updateList){
@@ -120,79 +121,6 @@ public class SendToDcc extends TaskScripting {
         }
 
         super.onInitMetadataDialog(dialog);
-    }
-
-    public void onInitMetadataDialogx(final IDialog dialog) throws EvitaWebException {
-            /*
-        if (dialog != null && isNew()) {
-
-            IDocument projeDoc ;
-            IDocument contactDoc = getContactRecord(ses.getUser().getLogin());
-            if(contactDoc != null) {
-
-            }
-
-            IControl fieldByName = dialog.getFieldByName("ccmPRJCard_name");
-            if (fieldByName != null && fieldByName instanceof ITextField) {
-                ITextField textField = (ITextField) fieldByName;
-                textField.setText("Yunus Emre Test");
-            }
-            fieldByName = dialog.getFieldByName("ccmPRJCard_code");
-            if (fieldByName != null && fieldByName instanceof ITextField) {
-                ITextField textField = (ITextField) fieldByName;
-                textField.setText("KN12345");
-            }
-
-        }
-
-             */
-
-    }
-    public IDocument getProjectCard(String pCode)  {
-        String objectID ="32e74338-d268-484d-99b0-f90187240549" ;
-
-        StringBuilder builder = new StringBuilder();
-        builder.append("TYPE = '").append(objectID).append("'")
-                .append(" AND ")
-                .append("ccmPRJCard_code").append(" = '").append(pCode).append("'");
-        String whereClause = builder.toString();
-        System.out.println("Where Clause: " + whereClause);
-
-        IInformationObject[] informationObjects = createQuery(new String[] {"PRJ_FOLDER"} , whereClause , 1);
-        if(informationObjects.length < 1) {return null;}
-        return (IDocument) informationObjects[0];
-    }
-    public IDocument getContactRecord(String eMail)  {
-        String SupplierContactWS ="d7ffea9d-3419-4922-8ffa-a0310add5723" ;
-
-        StringBuilder builder = new StringBuilder();
-        builder.append("TYPE = '").append(SupplierContactWS).append("'")
-                .append(" AND ")
-                .append("PrimaryEMail").append(" = '").append(eMail).append("'");
-        String whereClause = builder.toString();
-        System.out.println("Where Clause: " + whereClause);
-
-        IInformationObject[] informationObjects = createQuery(new String[] {"BPWS"} , whereClause , 1);
-        if(informationObjects.length < 1) {return null;}
-        return (IDocument) informationObjects[0];
-    }
-    public IInformationObject[] createQuery(String[] dbNames , String whereClause , int maxHits){
-        String[] databaseNames = dbNames;
-
-        ISerClassFactory fac = ses.getDocumentServer().getClassFactory();
-        IQueryParameter que = fac.getQueryParameterInstance(
-                ses ,
-                databaseNames ,
-                fac.getExpressionInstance(whereClause) ,
-                null,null);
-        if(maxHits > 0) {
-            que.setMaxHits(maxHits);
-            que.setHitLimit(maxHits + 1);
-            que.setHitLimitThreshold(maxHits + 1);
-        }
-        IDocumentHitList hits = que.getSession() != null? que.getSession().getDocumentServer().query(que, que.getSession()):null;
-        if(hits == null) return null;
-        else return hits.getInformationObjects();
     }
 
 }
