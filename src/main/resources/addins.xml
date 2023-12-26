@@ -19,6 +19,24 @@
                 server=""
                 system=""
                 type="task"/>
+        <script active="{cxiBoolean}1"
+                class="com.ser.SendToDcc"
+                name="Send To DCC Process"
+                processDef=""
+                processType="0e83647a-7611-4b50-80f3-2132dacca293"
+                reference=""
+                server=""
+                system=""
+                type="task"/>
+        <script active="{cxiBoolean}1"
+                class="com.ser.OutOfOffice"
+                name="Out of Office Process"
+                processDef=""
+                processType="e1d1b0a6-488a-476a-991f-78979446aaa8"
+                reference=""
+                server=""
+                system=""
+                type="task"/>
     </scripts>
     </scripts>
     <security>
