@@ -42,7 +42,7 @@ public class Transmittal extends TaskScripting {
 
         ITaskDefinition taskDefinition = getTask().getTaskDefinition();
         String activityName = taskDefinition.getName();
-        if (isNew()) {
+        if (isNew() && getTask().getProcessInstanceID() == "8bf0a09b-b569-4aef-984b-78cf1644ca19") {
 
             IUnit uiExternal= ses.getDocumentServer().getUnitByName( ses,"ExternalReader");
             IUser usr = getTask().getCreator();
@@ -51,12 +51,6 @@ public class Transmittal extends TaskScripting {
             List<String> units = Arrays.asList(usr.getUnitIDs());
             isExternal =units.contains(uiExternal.getID()) ;
 
-            log.info("Transmittal init oluyor.");
-            log.info("External Unit ID:" + uiExternal.getID());
-            log.info("User name:" + usr.getName());
-            log.info("User Units:" + (usr.getUnitIDs().toString()));
-
-
             processView.setDialogType("internal");
             if (isExternal)  processView.setDialogType("external");
 
@@ -64,7 +58,6 @@ public class Transmittal extends TaskScripting {
             processView.setDialogType("default");
 
 
-        log.info("Transmittal init oldu.");
        // processView.setItemReadonlyMode(ProcessDisplayItem.DOCUMENT_LINKS, EnumReadonlyMode.READONLY);
 
     }
@@ -93,7 +86,7 @@ public class Transmittal extends TaskScripting {
     public void onInitMetadataDialog(IDialog dialog) throws EvitaWebException {
         this.dlg = dialog;
 
-        if(!isNew()) return;
+        if(!isNew() || getTask().getProcessInstanceID() == "8bf0a09b-b569-4aef-984b-78cf1644ca19") return;
 
         List<IInformationObject> updateList = new ArrayList<>();
         IInformationObject parentObject = getTask().getProcessInstance().getMainInformationObject();
