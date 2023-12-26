@@ -10,6 +10,16 @@
                 server=""
                 system=""
                 type="task"/>
+        <script active="{cxiBoolean}1"
+                class="com.ser.DocReviewMain"
+                name="Doc review main Script"
+                processDef=""
+                processType="69d42aaf-6978-4b5a-8178-88a78f4b3158"
+                reference=""
+                server=""
+                system=""
+                type="task"/>
+    </scripts>
     </scripts>
     <security>
         <configuration>
