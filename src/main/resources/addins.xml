@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<extension xmlns="http://addins.webcube.ser.com/v1" classpath=".;WEB-INF/lib;*">
+    <scripts>
+        <script active="{cxiBoolean}1"
+                class="com.ser.Transmittal"
+                name="Transmittal Script"
+                reference="8bf0a09b-b569-4aef-984b-78cf1644ca19"
+                server=""
+                system=""
+                type="task"/>
+    </scripts>
+    <security>
+        <configuration>
+            <public-area>
+                <url-pattern>.*</url-pattern>
+            </public-area>
+        </configuration>
+    </security>
+</extension>

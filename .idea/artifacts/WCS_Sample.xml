@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="WCS-Sample">
+    <output-path>$PROJECT_DIR$/out/artifacts/WCS_Sample</output-path>
+    <root id="archive" name="WCS-Sample.jar">
+      <element id="module-output" name="WCS-Sample.main" />
+    </root>
+  </artifact>
+</component>
