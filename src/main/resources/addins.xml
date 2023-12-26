@@ -38,7 +38,6 @@
                 system=""
                 type="task"/>
     </scripts>
-    </scripts>
     <security>
         <configuration>
             <public-area>
