@@ -42,7 +42,7 @@ public class Transmittal extends TaskScripting {
 
         ITaskDefinition taskDefinition = getTask().getTaskDefinition();
         String activityName = taskDefinition.getName();
-        if (isNew() && getTask().getProcessInstanceID() == "8bf0a09b-b569-4aef-984b-78cf1644ca19") {
+        if (isNew() ) {
 
             IUnit uiExternal= ses.getDocumentServer().getUnitByName( ses,"ExternalReader");
             IUser usr = getTask().getCreator();
@@ -67,7 +67,6 @@ public class Transmittal extends TaskScripting {
         // Return, if descriptor value not set
         if (dialog != null) {
 
-
             IControl fieldByName = dialog.getFieldByName("ccmPRJCard_name");
             if (fieldByName != null && fieldByName instanceof ITextField) {
                 ITextField textField = (ITextField) fieldByName;
@@ -86,7 +85,7 @@ public class Transmittal extends TaskScripting {
     public void onInitMetadataDialog(IDialog dialog) throws EvitaWebException {
         this.dlg = dialog;
 
-        if(!isNew() || getTask().getProcessInstanceID() == "8bf0a09b-b569-4aef-984b-78cf1644ca19") return;
+        if(!isNew() ) return;
 
         List<IInformationObject> updateList = new ArrayList<>();
         IInformationObject parentObject = getTask().getProcessInstance().getMainInformationObject();
