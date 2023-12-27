@@ -111,7 +111,7 @@ public class Transmittal extends TaskScripting {
         String receiverSName = "";
         String ownerCompSName = "";
         String ownerCompName = "";
-        log.info("external user email:" + usr.getEMailAddress());
+
 
         List<IInformationObject> updateList = new ArrayList<>();
         IInformationObject parentObject = getTask().getProcessInstance().getMainInformationObject();
@@ -121,7 +121,7 @@ public class Transmittal extends TaskScripting {
             parentObject =  attachLink.getLinks().get(0).getTargetInformationObject();
         }
 
-        if( parentObject != null){
+        if(parentObject != null){
             prjCode = parentObject.getDescriptorValue("ccmPRJCard_code");
             updateList.add(parentObject);
             IInformationObject prjCardDoc = GeneralLib.getProjectCard(getTask().getSession(), parentObject.getDescriptorValue("ccmPRJCard_code"));
@@ -141,21 +141,21 @@ public class Transmittal extends TaskScripting {
                     if(parentVal.isEmpty()) continue;
 
                     Utils.setText(dlg , ctrl.getName() , parentVal);
-
-
                 }
-
             }
-
         }
+
+        log.info("external user email:" + usr.getEMailAddress());
         log.info("Project Code:" + prjCode);
-        IDocument ownerContactFile = GeneralLib.getContactRecord(getTask().getSession(), usr.getEMailAddress());
-        log.info("owner contact file:" + ownerContactFile);
-        if(isExternal) {
+        if(true) {
+            IDocument ownerContactFile = GeneralLib.getContactRecord(getTask().getSession(), usr.getEMailAddress());
+            log.info("owner contact file:" + ownerContactFile);
             if (ownerContactFile != null) {
-                IDocument contractorFile = GeneralLib.getContractorFolder(prjCode,ownerContactFile.getDescriptorValue("ObjectCode"));
-                ownerCompSName = ownerContactFile.getDescriptorValue("ContactShortName");
-                ownerCompName = ownerContactFile.getDescriptorValue("ObjectName");
+                log.info("owner contact file code:" + ownerContactFile.getDescriptorValue("ObjectNumber"));
+                IDocument contractorFile = GeneralLib.getContractorFolder(prjCode,ownerContactFile.getDescriptorValue("ObjectNumber"));
+                log.info("owner contactor file:" + contractorFile);
+                ownerCompSName = (contractorFile != null ? contractorFile.getDescriptorValue("ContactShortName") : "");
+                ownerCompName = (contractorFile != null ? contractorFile.getDescriptorValue("ObjectName") : "");
             }
             from = ownerCompName;
             fromSName = ownerCompSName;
