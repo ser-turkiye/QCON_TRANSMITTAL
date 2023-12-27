@@ -88,6 +88,8 @@ public class Transmittal extends TaskScripting {
         this.dlg = dialog;
         ses = getTask().getSession();
 
+        String prjCode = "";
+
         if(!isNew() ) return;
         IUnit uiExternal= ses.getDocumentServer().getUnitByName( ses,"ExternalReader");
         IUser usr = getTask().getCreator();
@@ -110,10 +112,48 @@ public class Transmittal extends TaskScripting {
         String ownerCompSName = "";
         String ownerCompName = "";
         log.info("external user email:" + usr.getEMailAddress());
+
+        List<IInformationObject> updateList = new ArrayList<>();
+        IInformationObject parentObject = getTask().getProcessInstance().getMainInformationObject();
+
+        if(parentObject == null){
+            IInformationObjectLinks attachLink= getTask().getProcessInstance().getLoadedInformationObjectLinks();
+            parentObject =  attachLink.getLinks().get(0).getTargetInformationObject();
+        }
+
+        if( parentObject != null){
+            prjCode = parentObject.getDescriptorValue("ccmPRJCard_code");
+            updateList.add(parentObject);
+            IInformationObject prjCardDoc = GeneralLib.getProjectCard(getTask().getSession(), parentObject.getDescriptorValue("ccmPRJCard_code"));
+            log.info("Project card doc : " + prjCardDoc);
+            if(prjCardDoc!=null) updateList.add(prjCardDoc);
+            for(IInformationObject sourceObje:updateList){
+
+                Vector<IControl> fields = dlg.getFields();
+                for(IControl ctrl : fields){
+                   // if(!ctrl.isReadonly()) continue;
+
+                    if (ctrl.getName()== null || ctrl.getName().isEmpty()) continue;
+
+                    String descID = ctrl.getDescriptorId();
+                    String parentVal = sourceObje.getDescriptorValue(descID);
+                    if(parentVal == null) continue;
+                    if(parentVal.isEmpty()) continue;
+
+                    Utils.setText(dlg , ctrl.getName() , parentVal);
+
+
+                }
+
+            }
+
+        }
+        log.info("Project Code:" + prjCode);
         IDocument ownerContactFile = GeneralLib.getContactRecord(getTask().getSession(), usr.getEMailAddress());
         log.info("owner contact file:" + ownerContactFile);
         if(isExternal) {
             if (ownerContactFile != null) {
+                IDocument contractorFile = GeneralLib.getContractorFolder(prjCode,ownerContactFile.getDescriptorValue("ObjectCode"));
                 ownerCompSName = ownerContactFile.getDescriptorValue("ContactShortName");
                 ownerCompName = ownerContactFile.getDescriptorValue("ObjectName");
             }
@@ -153,42 +193,6 @@ public class Transmittal extends TaskScripting {
             log.info("receiver short name :::" + receiverSName);
             ITextField textField = (ITextField) fieldReceiverCode;
             textField.setText(receiverSName);
-        }
-
-        List<IInformationObject> updateList = new ArrayList<>();
-        IInformationObject parentObject = getTask().getProcessInstance().getMainInformationObject();
-
-        if(parentObject == null){
-            IInformationObjectLinks attachLink= getTask().getProcessInstance().getLoadedInformationObjectLinks();
-            parentObject =  attachLink.getLinks().get(0).getTargetInformationObject();
-        }
-
-        if( parentObject != null){
-            updateList.add(parentObject);
-            IInformationObject prjCardDoc = GeneralLib.getProjectCard(getTask().getSession(), parentObject.getDescriptorValue("ccmPRJCard_code"));
-            log.info("Project card doc : " + prjCardDoc);
-            if(prjCardDoc!=null) updateList.add(prjCardDoc);
-
-            for(IInformationObject sourceObje:updateList){
-
-                Vector<IControl> fields = dlg.getFields();
-                for(IControl ctrl : fields){
-                   // if(!ctrl.isReadonly()) continue;
-
-                    if (ctrl.getName()== null || ctrl.getName().isEmpty()) continue;
-
-                    String descID = ctrl.getDescriptorId();
-                    String parentVal = sourceObje.getDescriptorValue(descID);
-                    if(parentVal == null) continue;
-                    if(parentVal.isEmpty()) continue;
-
-                    Utils.setText(dlg , ctrl.getName() , parentVal);
-
-
-                }
-
-            }
-
         }
 
         super.onInitMetadataDialog(dialog);

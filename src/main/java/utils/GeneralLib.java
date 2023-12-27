@@ -16,10 +16,12 @@ public class GeneralLib {
         public static final String ProjectWorkspace = "32e74338-d268-484d-99b0-f90187240549";
         public static final String Contact = "d7ffea9d-3419-4922-8ffa-a0310add5723";
         public static final String EngineeringDocument = "3b3078f8-c0d0-4830-b963-88bebe1c1462";
+        public static final String InvolveParty = "fad93754-b7c2-4a12-b40e-8afae3b31e3d";
     }
     public static class Databases{
         public static final String ProjectWorkspace = "PRJ_FOLDER";
         public static final String SupplierContact = "BPWS";
+        public static final String InvolveParty = "PRJ_FOLDER";
     }
     public static class Descriptors{
         public static final String ProjectNo = "ccmPRJCard_code";
@@ -64,6 +66,20 @@ public class GeneralLib {
         System.out.println("Where Clause: " + whereClause);
 
         IInformationObject[] informationObjects = createQuery(ses, new String[] {Databases.SupplierContact} , whereClause , 1);
+        if(informationObjects.length < 1) {return null;}
+        return (IDocument) informationObjects[0];
+    }
+    public static IDocument getContractorFolder(String prjCode, String compCode)  {
+        StringBuilder builder = new StringBuilder();
+        builder.append("TYPE = '").append(ClassIDs.InvolveParty).append("'")
+                .append(" AND ")
+                .append("ccmPRJCard_code").append(" = '").append(prjCode).append("'")
+                .append(" AND ")
+                .append("ObjectNumber").append(" = '").append(compCode).append("'");
+        String whereClause = builder.toString();
+        System.out.println("Where Clause: " + whereClause);
+
+        IInformationObject[] informationObjects = createQuery(ses, new String[]{Databases.InvolveParty} , whereClause , 1);
         if(informationObjects.length < 1) {return null;}
         return (IDocument) informationObjects[0];
     }
