@@ -35,6 +35,8 @@ public class SendToDcc extends TaskScripting {
     @Override
     public void onInit() throws EvitaWebException {
 
+
+        //test.osman
         boolean isExternal = false;
         ses = getTask().getSession();
 
