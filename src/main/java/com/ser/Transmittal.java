@@ -110,7 +110,7 @@ public class Transmittal extends TaskScripting {
         String ownerCompSName = "";
         String ownerCompName = "";
         log.info("external user email:" + usr.getEMailAddress());
-        IDocument ownerContactFile = GeneralLib.getContactRecord(getTask().getSession(), "ferdit@stfa.com");
+        IDocument ownerContactFile = GeneralLib.getContactRecord(getTask().getSession(), usr.getEMailAddress());
         log.info("owner contact file:" + ownerContactFile);
         if(isExternal) {
             if (ownerContactFile != null) {
@@ -134,7 +134,7 @@ public class Transmittal extends TaskScripting {
             ITextField textField = (ITextField) fieldSender;
             textField.setText(from);
         }
-        IControl fieldSenderCode = dialog.getFieldByName("ccmTrmtSenderCode");
+        IControl fieldSenderCode = dialog.getFieldByName("ccmSenderCode");
         if (fieldSenderCode != null && fieldSenderCode instanceof ITextField) {
             log.info("from :::" + from);
             log.info("from shortname :::" + fromSName);
@@ -147,7 +147,7 @@ public class Transmittal extends TaskScripting {
             ITextField textField = (ITextField) fieldReceiver;
             textField.setText(receiver);
         }
-        IControl fieldReceiverCode = dialog.getFieldByName("ccmTrmtReceiverCode");
+        IControl fieldReceiverCode = dialog.getFieldByName("ccmReceiverCode");
         if (fieldReceiver != null && fieldReceiverCode instanceof ITextField) {
             log.info("from :::" + from);
             log.info("receiver short name :::" + receiverSName);
