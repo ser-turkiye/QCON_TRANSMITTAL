@@ -98,46 +98,61 @@ public class Transmittal extends TaskScripting {
         List<String> units = Arrays.asList(usr.getUnitIDs());
         isExternal = units.contains(uiExternal.getID()) ;
 
-        String mainCompName = GeneralLib.getMainCompGVList(ses,"CCM_PARAM_CONTRACTOR-MEMBERS","NAME");
-        String mainCompSName = GeneralLib.getMainCompGVList(ses,"CCM_PARAM_CONTRACTOR-MEMBERS","SNAME");
+        String mainCompName = GeneralLib.getMainCompGVList(getTask().getSession(),"CCM_PARAM_CONTRACTOR-MEMBERS","NAME");
+        String mainCompSName = GeneralLib.getMainCompGVList(getTask().getSession(),"CCM_PARAM_CONTRACTOR-MEMBERS","SNAME");
         log.info("MAIN COM NAME:" + mainCompName);
+        log.info("MAIN COM SHORT NAME:" + mainCompSName);
 
         String from = "";
+        String fromSName = "";
         String receiver = "";
+        String receiverSName = "";
         String ownerCompSName = "";
         String ownerCompName = "";
+        log.info("external user email:" + usr.getEMailAddress());
+        IDocument ownerContactFile = GeneralLib.getContactRecord(getTask().getSession(), "ferdit@stfa.com");
+        log.info("owner contact file:" + ownerContactFile);
         if(isExternal) {
-            IDocument ownerContactFile = GeneralLib.getContactRecord(ses, usr.getEMailAddress());
-            log.info("external user email:" + usr.getEMailAddress());
-            log.info("owner contact file:" + ownerContactFile);
             if (ownerContactFile != null) {
                 ownerCompSName = ownerContactFile.getDescriptorValue("ContactShortName");
                 ownerCompName = ownerContactFile.getDescriptorValue("ObjectName");
             }
             from = ownerCompName;
+            fromSName = ownerCompSName;
             receiver = mainCompName;
+            receiverSName = mainCompSName;
         }else{
             from = mainCompName;
+            fromSName = mainCompSName;
         }
         log.info("from:" + from);
         log.info("receiver:" + receiver);
 
         IControl fieldSender = dialog.getFieldByName("ccmTrmtSender");
         if (fieldSender != null && fieldSender instanceof ITextField) {
-            log.info("field by name:::" + fieldSender);
             log.info("from :::" + from);
-            log.info("receiver :::" + receiver);
             ITextField textField = (ITextField) fieldSender;
             textField.setText(from);
         }
-
+        IControl fieldSenderCode = dialog.getFieldByName("ccmTrmtSenderCode");
+        if (fieldSenderCode != null && fieldSenderCode instanceof ITextField) {
+            log.info("from :::" + from);
+            log.info("from shortname :::" + fromSName);
+            ITextField textField = (ITextField) fieldSenderCode;
+            textField.setText(fromSName);
+        }
         IControl fieldReceiver = dialog.getFieldByName("ccmTrmtReceiver");
         if (fieldReceiver != null && fieldReceiver instanceof ITextField) {
-            log.info("field by name:::" + fieldReceiver);
-            log.info("from :::" + from);
             log.info("receiver :::" + receiver);
             ITextField textField = (ITextField) fieldReceiver;
             textField.setText(receiver);
+        }
+        IControl fieldReceiverCode = dialog.getFieldByName("ccmTrmtReceiverCode");
+        if (fieldReceiver != null && fieldReceiverCode instanceof ITextField) {
+            log.info("from :::" + from);
+            log.info("receiver short name :::" + receiverSName);
+            ITextField textField = (ITextField) fieldReceiverCode;
+            textField.setText(receiverSName);
         }
 
         List<IInformationObject> updateList = new ArrayList<>();
@@ -151,6 +166,7 @@ public class Transmittal extends TaskScripting {
         if( parentObject != null){
             updateList.add(parentObject);
             IInformationObject prjCardDoc = GeneralLib.getProjectCard(getTask().getSession(), parentObject.getDescriptorValue("ccmPRJCard_code"));
+            log.info("Project card doc : " + prjCardDoc);
             if(prjCardDoc!=null) updateList.add(prjCardDoc);
 
             for(IInformationObject sourceObje:updateList){
