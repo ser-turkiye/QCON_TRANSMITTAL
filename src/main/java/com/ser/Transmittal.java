@@ -86,8 +86,59 @@ public class Transmittal extends TaskScripting {
 @Override
     public void onInitMetadataDialog(IDialog dialog) throws EvitaWebException {
         this.dlg = dialog;
+        ses = getTask().getSession();
 
         if(!isNew() ) return;
+        IUnit uiExternal= ses.getDocumentServer().getUnitByName( ses,"ExternalReader");
+        IUser usr = getTask().getCreator();
+        if(usr==null) usr = ses.getUser();
+        log.info("usr:" + usr.getLogin());
+
+        boolean isExternal = false;
+        List<String> units = Arrays.asList(usr.getUnitIDs());
+        isExternal = units.contains(uiExternal.getID()) ;
+
+        String mainCompName = GeneralLib.getMainCompGVList(ses,"CCM_PARAM_CONTRACTOR-MEMBERS","NAME");
+        String mainCompSName = GeneralLib.getMainCompGVList(ses,"CCM_PARAM_CONTRACTOR-MEMBERS","SNAME");
+        log.info("MAIN COM NAME:" + mainCompName);
+
+        String from = "";
+        String receiver = "";
+        String ownerCompSName = "";
+        String ownerCompName = "";
+        if(isExternal) {
+            IDocument ownerContactFile = GeneralLib.getContactRecord(ses, usr.getEMailAddress());
+            log.info("external user email:" + usr.getEMailAddress());
+            log.info("owner contact file:" + ownerContactFile);
+            if (ownerContactFile != null) {
+                ownerCompSName = ownerContactFile.getDescriptorValue("ContactShortName");
+                ownerCompName = ownerContactFile.getDescriptorValue("ObjectName");
+            }
+            from = ownerCompName;
+            receiver = mainCompName;
+        }else{
+            from = mainCompName;
+        }
+        log.info("from:" + from);
+        log.info("receiver:" + receiver);
+
+        IControl fieldSender = dialog.getFieldByName("ccmTrmtSender");
+        if (fieldSender != null && fieldSender instanceof ITextField) {
+            log.info("field by name:::" + fieldSender);
+            log.info("from :::" + from);
+            log.info("receiver :::" + receiver);
+            ITextField textField = (ITextField) fieldSender;
+            textField.setText(from);
+        }
+
+        IControl fieldReceiver = dialog.getFieldByName("ccmTrmtReceiver");
+        if (fieldReceiver != null && fieldReceiver instanceof ITextField) {
+            log.info("field by name:::" + fieldReceiver);
+            log.info("from :::" + from);
+            log.info("receiver :::" + receiver);
+            ITextField textField = (ITextField) fieldReceiver;
+            textField.setText(receiver);
+        }
 
         List<IInformationObject> updateList = new ArrayList<>();
         IInformationObject parentObject = getTask().getProcessInstance().getMainInformationObject();
@@ -102,25 +153,25 @@ public class Transmittal extends TaskScripting {
             IInformationObject prjCardDoc = GeneralLib.getProjectCard(getTask().getSession(), parentObject.getDescriptorValue("ccmPRJCard_code"));
             if(prjCardDoc!=null) updateList.add(prjCardDoc);
 
-                for(IInformationObject sourceObje:updateList){
+            for(IInformationObject sourceObje:updateList){
 
-                    Vector<IControl> fields = dlg.getFields();
-                    for(IControl ctrl : fields){
-                       // if(!ctrl.isReadonly()) continue;
+                Vector<IControl> fields = dlg.getFields();
+                for(IControl ctrl : fields){
+                   // if(!ctrl.isReadonly()) continue;
 
-                        if (ctrl.getName()== null || ctrl.getName().isEmpty()) continue;
+                    if (ctrl.getName()== null || ctrl.getName().isEmpty()) continue;
 
-                        String descID = ctrl.getDescriptorId();
-                        String parentVal = sourceObje.getDescriptorValue(descID);
-                        if(parentVal == null) continue;
-                        if(parentVal.isEmpty()) continue;
+                    String descID = ctrl.getDescriptorId();
+                    String parentVal = sourceObje.getDescriptorValue(descID);
+                    if(parentVal == null) continue;
+                    if(parentVal.isEmpty()) continue;
 
-                        Utils.setText(dlg , ctrl.getName() , parentVal);
+                    Utils.setText(dlg , ctrl.getName() , parentVal);
 
-
-                    }
 
                 }
+
+            }
 
         }
 
