@@ -1,9 +1,7 @@
 package com.ser;
-import com.ser.sedna.client.bluelineimpl.bpm.InformationObjectLinks;
 import utils.*;
 
 import com.ser.blueline.*;
-import com.ser.blueline.bpm.IProcessInstance;
 import com.ser.blueline.bpm.ITask;
 import com.ser.blueline.bpm.ITaskDefinition;
 import com.ser.evITAWeb.EvitaWebException;
@@ -13,7 +11,6 @@ import com.ser.evITAWeb.api.actions.IMessageAction;
 import com.ser.evITAWeb.api.actions.IStopFurtherAction;
 import com.ser.evITAWeb.api.controls.IControl;
 import com.ser.evITAWeb.api.controls.ITextField;
-import com.ser.evITAWeb.api.options.EnumReadonlyMode;
 import com.ser.evITAWeb.scripting.Doxis4ClassFactory;
 import com.ser.evITAWeb.scripting.bpmservice.task.TaskScripting;
 import org.slf4j.Logger;
@@ -134,6 +131,7 @@ public class Transmittal extends TaskScripting {
                    // if(!ctrl.isReadonly()) continue;
 
                     if (ctrl.getName()== null || ctrl.getName().isEmpty()) continue;
+                    if (ctrl.getName().equals("ccmPrjDocNumber")) continue;
 
                     String descID = ctrl.getDescriptorId();
                     String parentVal = sourceObje.getDescriptorValue(descID);
@@ -168,33 +166,28 @@ public class Transmittal extends TaskScripting {
         log.info("from:" + from);
         log.info("receiver:" + receiver);
 
-        IControl fieldSender = dialog.getFieldByName("ccmTrmtSender");
-        if (fieldSender != null && fieldSender instanceof ITextField) {
+        IControl _sender = dialog.getFieldByName("ccmTrmtSender");
+        if (_sender != null && _sender instanceof ITextField) {
             log.info("from :::" + from);
-            ITextField textField = (ITextField) fieldSender;
-            textField.setText(from);
+            ((ITextField) _sender).setText(from);
         }
-        IControl fieldSenderCode = dialog.getFieldByName("ccmSenderCode");
-        if (fieldSenderCode != null && fieldSenderCode instanceof ITextField) {
+        IControl _senderCode = dialog.getFieldByName("ccmSenderCode");
+        if (_senderCode != null && _senderCode instanceof ITextField) {
             log.info("from :::" + from);
             log.info("from shortname :::" + fromSName);
-            ITextField textField = (ITextField) fieldSenderCode;
-            textField.setText(fromSName);
+            ((ITextField) _senderCode).setText(fromSName);
         }
-        IControl fieldReceiver = dialog.getFieldByName("ccmTrmtReceiver");
-        if (fieldReceiver != null && fieldReceiver instanceof ITextField) {
+        IControl _receiver = dialog.getFieldByName("ccmTrmtReceiver");
+        if (_receiver != null && _receiver instanceof ITextField) {
             log.info("receiver :::" + receiver);
-            ITextField textField = (ITextField) fieldReceiver;
-            textField.setText(receiver);
+            ((ITextField) _receiver).setText(receiver);
         }
-        IControl fieldReceiverCode = dialog.getFieldByName("ccmReceiverCode");
-        if (fieldReceiver != null && fieldReceiverCode instanceof ITextField) {
+        IControl _receiverCosw = dialog.getFieldByName("ccmReceiverCode");
+        if (_receiver != null && _receiverCosw instanceof ITextField) {
             log.info("from :::" + from);
             log.info("receiver short name :::" + receiverSName);
-            ITextField textField = (ITextField) fieldReceiverCode;
-            textField.setText(receiverSName);
+            ((ITextField) _receiverCosw).setText(receiverSName);
         }
-
         super.onInitMetadataDialog(dialog);
     }
 
