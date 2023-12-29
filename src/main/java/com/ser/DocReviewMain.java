@@ -33,34 +33,6 @@ public class DocReviewMain extends TaskScripting {
     }
 
     @Override
-    public void onInit() throws EvitaWebException {
-
-        boolean isExternal = false;
-        ses = getTask().getSession();
-
-        ITaskDefinition taskDefinition = getTask().getTaskDefinition();
-        String activityName = taskDefinition.getName();
-        if (isNew() ) {
-
-            IUnit uiExternal= ses.getDocumentServer().getUnitByName( ses,"ExternalReader");
-            IUser usr = getTask().getCreator();
-            if(usr==null) usr = ses.getUser();
-
-            List<String> units = Arrays.asList(usr.getUnitIDs());
-            isExternal =units.contains(uiExternal.getID()) ;
-
-            processView.setDialogType("internal");
-            if (isExternal)  processView.setDialogType("external");
-
-        } else
-            processView.setDialogType("default");
-
-
-       // processView.setItemReadonlyMode(ProcessDisplayItem.DOCUMENT_LINKS, EnumReadonlyMode.READONLY);
-
-    }
-
-    @Override
     public IBasicAction onCommit(IDialog dialog) throws EvitaWebException {
         // Return, if descriptor value not set
         if (dialog != null) {

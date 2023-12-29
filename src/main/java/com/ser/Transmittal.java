@@ -1,4 +1,5 @@
 package com.ser;
+import com.ser.evITAWeb.api.controls.IDate;
 import utils.*;
 
 import com.ser.blueline.*;
@@ -15,10 +16,9 @@ import com.ser.evITAWeb.scripting.Doxis4ClassFactory;
 import com.ser.evITAWeb.scripting.bpmservice.task.TaskScripting;
 import org.slf4j.Logger;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Vector;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class Transmittal extends TaskScripting {
 
@@ -145,7 +145,7 @@ public class Transmittal extends TaskScripting {
 
         log.info("external user email:" + usr.getEMailAddress());
         log.info("Project Code:" + prjCode);
-        if(true) {
+        if(isExternal) {
             IDocument ownerContactFile = GeneralLib.getContactRecord(getTask().getSession(), usr.getEMailAddress());
             log.info("owner contact file:" + ownerContactFile);
             if (ownerContactFile != null) {
@@ -165,6 +165,12 @@ public class Transmittal extends TaskScripting {
         }
         log.info("from:" + from);
         log.info("receiver:" + receiver);
+
+        IControl _issueDate = dialog.getFieldByName("ccmTrmtSender");
+        if (_issueDate != null && _issueDate instanceof IDate) {
+            DateFormat dt = new SimpleDateFormat("yyyyMMdd");
+            ((ITextField) _issueDate).setText(dt.format(new Date()));
+        }
 
         IControl _sender = dialog.getFieldByName("ccmTrmtSender");
         if (_sender != null && _sender instanceof ITextField) {
