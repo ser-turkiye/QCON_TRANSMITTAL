@@ -132,6 +132,7 @@ public class Transmittal extends TaskScripting {
 
                     if (ctrl.getName()== null || ctrl.getName().isEmpty()) continue;
                     if (ctrl.getName().equals("ccmPrjDocNumber")) continue;
+                    if (ctrl.getName().equals("ccmPrjDocDocType")) continue;
 
                     String descID = ctrl.getDescriptorId();
                     String parentVal = sourceObje.getDescriptorValue(descID);
