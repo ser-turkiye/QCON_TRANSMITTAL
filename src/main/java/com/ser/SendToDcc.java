@@ -144,8 +144,8 @@ public class SendToDcc extends TaskScripting {
                     dsts = (dsts == null ? "" : dsts);
                     if(!GeneralLib.CheckValues.SendDocStatuses.contains(dsts)){
                         throw new Exception("The process cannot be started for this document. \n" +
-                                "The process can only be started for documents in Draft or Sent-Back status. \n\n" +
-                                "[" + disp + "]");
+                                "The process can only be started for documents in 'New' status. \n\n" +
+                                "[" + disp + "/" + dsts +"]");
                     }
                 }
             }

@@ -16,6 +16,7 @@ public class GeneralLib {
         public static final String ProjectWorkspace = "32e74338-d268-484d-99b0-f90187240549";
         public static final String Contact = "d7ffea9d-3419-4922-8ffa-a0310add5723";
         public static final String EngineeringDocument = "3b3078f8-c0d0-4830-b963-88bebe1c1462";
+        public static final String DocMainReview = "69d42aaf-6978-4b5a-8178-88a78f4b3158";
         public static final String InvolveParty = "fad93754-b7c2-4a12-b40e-8afae3b31e3d";
     }
     public static class Databases{
@@ -32,9 +33,7 @@ public class GeneralLib {
     }
     public static class CheckValues{
         public static final List<String> SendDocStatuses = new ArrayList<>(Arrays.asList(
-                "",
-                "10",
-                "20"
+                "10"
         ));
 
     }
