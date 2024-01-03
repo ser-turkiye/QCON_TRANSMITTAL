@@ -70,7 +70,8 @@ public class SendToDcc extends TaskScripting {
             updateList.add(parentObject);
         }
 
-        IInformationObject prjCardDoc = GeneralLib.getProjectCard(getTask().getSession(), parentObject.getDescriptorValue("ccmPRJCard_code"));
+        IInformationObject prjCardDoc = GeneralLib.getProjectCard(getTask().getSession(),
+                parentObject.getDescriptorValue("ccmPRJCard_code"));
         if(prjCardDoc != null){
             updateList.add(prjCardDoc);
         }
@@ -126,7 +127,7 @@ public class SendToDcc extends TaskScripting {
                 throw new Exception("Invalid Project Name. Kindly re-check your inputs");
             }
 
-            if(taskCompleteDialog == null){
+            if(taskCompleteDialog == null && isNew()){
                 IInformationObjectLinks links = getTask().getProcessInstance().getLoadedInformationObjectLinks();
 
                 for (ILink link : links.getLinks()) {
