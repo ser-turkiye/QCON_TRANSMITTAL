@@ -31,5 +31,23 @@ public class OutOfOffice extends TaskScripting {
         this.log=super.log;
     }
 
+    public void onInit() throws EvitaWebException {
 
+        boolean isExternal = false;
+        ses = getTask().getSession();
+
+
+
+        ITaskDefinition taskDefinition = getTask().getTaskDefinition();
+        String activityName = taskDefinition.getName();
+        if (isNew() ) {
+
+            IUser usr = getTask().getCreator();
+            if(usr==null) usr = ses.getUser();
+
+            getTask().setDescriptorValue("AbacOrgaRead",usr.getID());
+            getTask().setDescriptorValue("orgUserDelegationFrom",usr.getID());
+
+        }
+    }
 }
