@@ -115,7 +115,7 @@ public class GeneralLib {
             rowValueParamCompName = settingsMatrix.getValue(i, 2);
             rowValueParamMainComp = settingsMatrix.getValue(i, 7);
 
-            if (!settingsMatrix.getValue(i, 0).equals(pCode) && !Objects.equals(rowValueParamMainComp, "1")){continue;}
+            if (!(settingsMatrix.getValue(i, 0).equals(pCode) && Objects.equals(rowValueParamMainComp, "1"))){continue;}
 
             return (Objects.equals(infoType, "NAME") ? rowValueParamCompName : rowValueParamCompSName);
         }

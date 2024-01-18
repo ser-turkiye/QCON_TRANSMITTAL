@@ -66,7 +66,7 @@ apply plugin: CubeDeployPlugin
 class CubeDeployPlugin implements Plugin<Project> {
 
     //String baseURL = "http://dev.serturkiye.com/webcube"
-    String baseURL = "http://172.20.0.24/webcube"
+    String baseURL = "http://127.0.0.1/webcube"
 
     /*
     Map<String,String> params = [
