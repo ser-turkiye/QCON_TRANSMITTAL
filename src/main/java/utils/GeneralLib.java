@@ -100,7 +100,7 @@ public class GeneralLib {
         if(hits == null) return null;
         else return hits.getInformationObjects();
     }
-    public static String getMainCompGVList(ISession ses, String paramName, String infoType) {
+    public static String getMainCompGVList(ISession ses, String paramName, String pCode, String infoType) {
         setSes(ses);
         String rtrn = "";
         log.warn("GVList name:" + paramName);
@@ -115,7 +115,7 @@ public class GeneralLib {
             rowValueParamCompName = settingsMatrix.getValue(i, 2);
             rowValueParamMainComp = settingsMatrix.getValue(i, 7);
 
-            if (!Objects.equals(rowValueParamMainComp, "1")){continue;}
+            if (!settingsMatrix.getValue(i, 0).equals(pCode) && !Objects.equals(rowValueParamMainComp, "1")){continue;}
 
             return (Objects.equals(infoType, "NAME") ? rowValueParamCompName : rowValueParamCompSName);
         }

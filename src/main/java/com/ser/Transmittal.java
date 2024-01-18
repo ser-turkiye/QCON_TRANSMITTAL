@@ -97,18 +97,14 @@ public class Transmittal extends TaskScripting {
         List<String> units = Arrays.asList(usr.getUnitIDs());
         isExternal = units.contains(uiExternal.getID()) ;
 
-        String mainCompName = GeneralLib.getMainCompGVList(getTask().getSession(),"CCM_PARAM_CONTRACTOR-MEMBERS","NAME");
-        String mainCompSName = GeneralLib.getMainCompGVList(getTask().getSession(),"CCM_PARAM_CONTRACTOR-MEMBERS","SNAME");
-        log.info("MAIN COM NAME:" + mainCompName);
-        log.info("MAIN COM SHORT NAME:" + mainCompSName);
-
         String from = "";
         String fromSName = "";
         String receiver = "";
         String receiverSName = "";
         String ownerCompSName = "";
         String ownerCompName = "";
-
+        String mainCompName ="";
+        String mainCompSName ="";
 
         List<IInformationObject> updateList = new ArrayList<>();
         IInformationObject parentObject = getTask().getProcessInstance().getMainInformationObject();
@@ -120,6 +116,13 @@ public class Transmittal extends TaskScripting {
 
         if(parentObject != null){
             prjCode = parentObject.getDescriptorValue("ccmPRJCard_code");
+
+
+             mainCompName = GeneralLib.getMainCompGVList(getTask().getSession(),"CCM_PARAM_CONTRACTOR-MEMBERS",prjCode,"NAME");
+             mainCompSName = GeneralLib.getMainCompGVList(getTask().getSession(),"CCM_PARAM_CONTRACTOR-MEMBERS",prjCode,"SNAME");
+            log.info("MAIN COM NAME:" + mainCompName);
+            log.info("MAIN COM SHORT NAME:" + mainCompSName);
+
             updateList.add(parentObject);
             IInformationObject prjCardDoc = GeneralLib.getProjectCard(getTask().getSession(), parentObject.getDescriptorValue("ccmPRJCard_code"));
             log.info("Project card doc : " + prjCardDoc);
