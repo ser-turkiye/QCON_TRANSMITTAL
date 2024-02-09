@@ -3,7 +3,7 @@
     <scripts>
         <script active="{cxiBoolean}1"
                 class="com.ser.Transmittal"
-                name="Transmittal Script"
+                name="Correspondence Script"
                 processDef=""
                 processType="8bf0a09b-b569-4aef-984b-78cf1644ca19"
                 reference=""
