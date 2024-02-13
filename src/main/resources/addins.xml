@@ -2,8 +2,8 @@
 <extension xmlns="http://addins.webcube.ser.com/v1" classpath=".;WEB-INF/lib;*">
     <scripts>
         <script active="{cxiBoolean}1"
-                class="com.ser.Transmittal"
-                name="Correspondence Script"
+                class="com.ser.Correspondence"
+                name="Correspondence"
                 processDef=""
                 processType="8bf0a09b-b569-4aef-984b-78cf1644ca19"
                 reference=""

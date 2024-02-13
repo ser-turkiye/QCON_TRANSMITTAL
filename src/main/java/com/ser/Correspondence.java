@@ -20,13 +20,13 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class Transmittal extends TaskScripting {
+public class Correspondence extends TaskScripting {
 
 
     private static Logger log;
     public ISession ses;
     private IDialog dlg;
-    public Transmittal(ITask task){
+    public Correspondence(ITask task){
         super(task);
         this.log=super.log;
     }
@@ -117,9 +117,8 @@ public class Transmittal extends TaskScripting {
         if(parentObject != null){
             prjCode = parentObject.getDescriptorValue("ccmPRJCard_code");
 
-
-             mainCompName = GeneralLib.getMainCompGVList(getTask().getSession(),"CCM_PARAM_CONTRACTOR-MEMBERS",prjCode,"NAME");
-             mainCompSName = GeneralLib.getMainCompGVList(getTask().getSession(),"CCM_PARAM_CONTRACTOR-MEMBERS",prjCode,"SNAME");
+            mainCompName = GeneralLib.getMainCompGVList(getTask().getSession(),"CCM_PARAM_CONTRACTOR-MEMBERS",prjCode,"NAME");
+            mainCompSName = GeneralLib.getMainCompGVList(getTask().getSession(),"CCM_PARAM_CONTRACTOR-MEMBERS",prjCode,"SNAME");
             log.info("MAIN COM NAME:" + mainCompName);
             log.info("MAIN COM SHORT NAME:" + mainCompSName);
 
@@ -133,9 +132,16 @@ public class Transmittal extends TaskScripting {
                 for(IControl ctrl : fields){
                    // if(!ctrl.isReadonly()) continue;
 
-                    if (ctrl.getName()== null || ctrl.getName().isEmpty()) continue;
-                    if (ctrl.getName().equals("ccmPrjDocNumber")) continue;
-                    if (ctrl.getName().equals("ccmPrjDocDocType")) continue;
+                    if (ctrl.getName() == null || ctrl.getName().isEmpty()) continue;
+                    if (ctrl.getDescriptorId() == null || ctrl.getDescriptorId().isEmpty()) continue;
+
+                    if (ctrl.getName().contains("ccmPrjDocNumber") || ctrl.getName().contains("ccmPrjDocNumber")){
+                        //Utils.setText(dlg , ctrl.getName() , "");
+                        continue;
+                    }
+
+                    log.info("Control-name : " + ctrl.getName());
+                    log.info("Control-did : " + ctrl.getDescriptorId());
 
                     String descID = ctrl.getDescriptorId();
                     String parentVal = sourceObje.getDescriptorValue(descID);
