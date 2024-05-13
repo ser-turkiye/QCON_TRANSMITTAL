@@ -83,8 +83,8 @@ class CubeDeployPlugin implements Plugin<Project> {
     Map<String,String> params = [
             name    : "QCON-WEB-PROCESS",
             user    : "admin",
-            password: "admin",
-            server  : "CSB-PROD",
+            password: "Ser@2023",
+            server  : "websrv01",
             system  : "qcon",
             activate: "true",
             override: "true"

@@ -37,6 +37,20 @@
                 server=""
                 system=""
                 type="task"/>
+        <script active="{cxiBoolean}1"
+                class="com.ser.ImportDocFromExcel"
+                name="Import Docs From Excel"
+                reference="5047dac6-cf61-4896-863f-6b0fce62865d"
+                server=""
+                system=""
+                type="filing"/>
+        <script active="{cxiBoolean}1"
+                class="com.ser.RecordScript"
+                name="RecordScript"
+                reference="32e74338-d268-484d-99b0-f90187240549"
+                server=""
+                system=""
+                type="record"/>
     </scripts>
     <security>
         <configuration>
