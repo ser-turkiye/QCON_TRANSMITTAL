@@ -155,20 +155,20 @@ public class DownloadFiles extends WorkbasketScripting {
             for (ILink link2 : links2) {
                 IDocument edoc = (IDocument) link2.getTargetInformationObject();
                 //log.info("Get zip File....linked edoc:" + edoc.getDisplayName());
-                String expPath2 = exportDocument(edoc, exportPath);
+                String expPath2 = exportDocument(edoc, exportPath + "/" + folderName);
                 if(expFilePaths.contains(expPath2)){continue;}
                 //log.info("IDOC [" + lcnt + "] *** " + edoc.getID());
-                expFilePaths.add(expPath2);
+                //expFilePaths.add(expPath2);
             }
             IInformationObject[] links3 = server.getDocumentServer().getReferencingInformationObjects(informationObject.getSession(), informationObject,false,
                     VersionIdentifier.CURRENT_VERSION, IRetentionState.ALL,false,databases);
             for (IInformationObject link3 : links3) {
                 IDocument edoc = (IDocument) link3;
                 //log.info("Get zip File....linked edoc:" + edoc.getDisplayName());
-                String expPath2 = exportDocument(edoc, exportPath);
+                String expPath2 = exportDocument(edoc, exportPath + "/" + folderName);
                 if(expFilePaths.contains(expPath2)){continue;}
                 //log.info("IDOC [" + lcnt + "] *** " + edoc.getID());
-                expFilePaths.add(expPath2);
+                //expFilePaths.add(expPath2);
             }
         }
         LOG.info("Get zip File....exportPath:" + exportPath);
