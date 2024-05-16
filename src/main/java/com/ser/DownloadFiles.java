@@ -156,20 +156,23 @@ public class DownloadFiles extends WorkbasketScripting {
                 IDocument edoc = (IDocument) link2.getTargetInformationObject();
                 //log.info("Get zip File....linked edoc:" + edoc.getDisplayName());
                 String expPath2 = exportDocument(edoc, exportPath + "/" + folderName);
+                LOG.info("Get zip File....exported Path22:" + expPath2);
                 if(expFilePaths.contains(expPath2)){continue;}
                 //log.info("IDOC [" + lcnt + "] *** " + edoc.getID());
                 //expFilePaths.add(expPath2);
             }
+            /*LOG.info("Get zip File....exported start links33");///bu linkte hata (admin harici) veriyor kapatıldı
             IInformationObject[] links3 = server.getDocumentServer().getReferencingInformationObjects(informationObject.getSession(), informationObject,false,
                     VersionIdentifier.CURRENT_VERSION, IRetentionState.ALL,false,databases);
             for (IInformationObject link3 : links3) {
                 IDocument edoc = (IDocument) link3;
                 //log.info("Get zip File....linked edoc:" + edoc.getDisplayName());
-                String expPath2 = exportDocument(edoc, exportPath + "/" + folderName);
-                if(expFilePaths.contains(expPath2)){continue;}
+                String expPath3 = exportDocument(edoc, exportPath + "/" + folderName);
+                LOG.info("Get zip File....exported Path33:" + expPath3);
+                if(expFilePaths.contains(expPath3)){continue;}
                 //log.info("IDOC [" + lcnt + "] *** " + edoc.getID());
                 //expFilePaths.add(expPath2);
-            }
+            }*/
         }
         LOG.info("Get zip File....exportPath:" + exportPath);
         return zipFolder(downloadPath + "/Blobs.zip", exportPath, LOG);
