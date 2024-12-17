@@ -52,12 +52,26 @@
                 system=""
                 type="record"/>
         <script active="{cxiBoolean}1"
-                class="com.ser.DownloadFiles"
-                name="DownloadFiles"
+                class="com.ser.DownloadFilesToMail"
+                name="DownloadFilesToMail"
                 reference=""
                 server=""
                 system=""
                 type="workbasket"/>
+        <script active="{cxiBoolean}1"
+                class="com.ser.OrgUnitDocsFiling"
+                name="Upload Org Unit Document Filing"
+                reference="0b319e8a-e7fb-4db4-bd21-71201bc17366"
+                server=""
+                system=""
+                type="filing"/>
+        <script active="{cxiBoolean}1"
+                class="com.ser.OrgUnitDocsRecord"
+                name="Upload OrgUnit Document Record"
+                reference="65970887-aa58-45c2-8efe-c83056d87dab"
+                server=""
+                system=""
+                type="record"/>
     </scripts>
     <security>
         <configuration>

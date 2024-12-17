@@ -1,6 +1,13 @@
 package utils;
 
-import com.ser.blueline.IInformationObject;
+import com.ser.blueline.*;
+import com.ser.blueline.bpm.IBpmService;
+import com.ser.blueline.bpm.IProcessInstance;
+import com.ser.blueline.bpm.IProcessType;
+import com.ser.blueline.bpm.ITask;
+import com.ser.blueline.metaDataComponents.IArchiveClass;
+import com.ser.blueline.metaDataComponents.IArchiveFolderClass;
+import com.ser.blueline.metaDataComponents.IStringMatrix;
 import com.ser.evITAWeb.api.IDialog;
 import com.ser.evITAWeb.api.context.IFolderContext;
 import com.ser.evITAWeb.api.context.IScriptingContext;
@@ -8,14 +15,20 @@ import com.ser.evITAWeb.api.context.ISourceContext;
 import com.ser.evITAWeb.api.context.ITaskContext;
 import com.ser.evITAWeb.api.controls.*;
 import com.ser.foldermanager.IFolder;
+import org.apache.logging.log4j.LogManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import org.json.JSONObject;
 
 public class Utils {
-
+    public static ISession session = null;
+    public static IDocumentServer server = null;
     private static final Logger LOG = LoggerFactory.getLogger(Utils.class);
 
     public static IFolder getSourceFolder(ISourceContext srcContext){
@@ -137,7 +150,6 @@ public class Utils {
         }
 
     }
-
     public static void setMultiValueSelectionBox(IDialog dlg, String controlName, String value) {
         IControl c = getControl(dlg, controlName);
         if (c == null) {
@@ -155,8 +167,6 @@ public class Utils {
         }
 
     }
-
-
 
     public static String formatDate(String val){
         final String DOXIS_DATE_FORMAT = "yyyyMMdd";
@@ -188,16 +198,6 @@ public class Utils {
         }
 
     }
-    public static void setTextfieldValue(IDialog dlg, String controlName, String value) {
-        IControl c = getControl(dlg, controlName);
-        if (c == null) {
-            LOG.warn("control <{}> not found, failed to set value of text field", controlName);
-        } else {
-            setTextfieldValue(c, value);
-        }
-
-    }
-
     public static void setTextfieldValue(IControl iControl, String value) {
         if (iControl == null) {
             LOG.warn("missing parameter iControl");

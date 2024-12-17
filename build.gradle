@@ -20,13 +20,22 @@ repositories {
 }
 
 dependencies {
-    def doxisVersion = "12.1.1"
+    def doxisVersion = "12.4.1"
     implementation (group: 'com.ser.doxis4.webcube', name: 'webcube-api', version: "$doxisVersion")
     implementation (group: 'com.ser.doxis4.webcube', name: 'groovy-webcube', version: "$doxisVersion")
 
     implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.17.2'
     implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.17.2'
     implementation group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.17.2'
+
+    // https://mvnrepository.com/artifact/com.sun.mail/jakarta.mail
+    implementation group: 'com.sun.mail', name: 'jakarta.mail', version: '2.0.1'
+
+    // https://mvnrepository.com/artifact/jakarta.activation/jakarta.activation-api
+    implementation group: 'jakarta.activation', name: 'jakarta.activation-api', version: '1.2.1'
+
+    // https://mvnrepository.com/artifact/org.json/json
+    implementation group: 'org.json', name: 'json', version: '20231013'
 
     // Servlet/JSP API
     compileOnly "javax.servlet:javax.servlet-api:3.1.0"
@@ -78,13 +87,23 @@ class CubeDeployPlugin implements Plugin<Project> {
             activate: "true",
             override: "true"
     ]
-    */
 
     Map<String,String> params = [
             name    : "QCON-WEB-PROCESS",
             user    : "admin",
             password: "Ser@2023",
             server  : "websrv01",
+            system  : "qcon",
+            activate: "true",
+            override: "true"
+    ]
+    */
+
+    Map<String,String> params = [
+            name    : "QCON-WEB-PROCESS",
+            user    : "admin",
+            password: "admin",
+            server  : "CSB-PROD",
             system  : "qcon",
             activate: "true",
             override: "true"
